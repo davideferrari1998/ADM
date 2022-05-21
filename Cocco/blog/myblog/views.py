@@ -1,8 +1,10 @@
 
+from datetime import datetime
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.views import generic
-from .models import Articoli, Autore
-import datetime
+from .models import Articoli, ArticoliForm
+from django.contrib.auth.decorators import login_required 
 
 # Create your views here.
 class PostsView(generic.ListView):
@@ -22,3 +24,21 @@ def PostsDetail(request, user, year, month, post_id):
 
     post = get_object_or_404(Articoli, autore = user, pub_date__month=month, pub_date__year=year, pk = post_id)
     return render(request, template_name, {context_object_name: post})
+
+@login_required
+def ArticoliFormView(request):
+
+    if request.method == 'POST':
+
+        form = ArticoliForm(request.POST)
+        
+        if form.is_valid():
+            form.save()
+            return HttpResponse('Articolo inserito')
+        else:
+            return HttpResponse('form not valid')
+
+    else:
+        form = ArticoliForm()
+        form.fields['pub_date'].initial = datetime.now()
+        return render(request, 'myblog/form.html', {'form':form})
