@@ -4,13 +4,15 @@
     // Per altre informazioni, visitare: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "Python: Django",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/manage.py",
             "args": [
-                "runserver", "9000"
+                //"runserver", "9000"
+                "test", "myblog"
             ],
             "django": true,
             "justMyCode": true

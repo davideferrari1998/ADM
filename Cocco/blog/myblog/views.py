@@ -32,7 +32,7 @@ def ArticoliFormView(request):
 
         form = ArticoliForm(request.POST)
         
-        if form.is_valid():
+        if form.is_valid() and form.instance.valid_date():
             form.save()
             return HttpResponse('Articolo inserito')
         else:

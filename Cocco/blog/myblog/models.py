@@ -1,5 +1,6 @@
 from dataclasses import fields
-from django import forms
+from datetime import datetime
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib import admin
@@ -26,10 +27,11 @@ class Articoli(models.Model):
     def __str__(self) -> str:
         return self.titolo
 
+    def valid_date(self):
+        now = timezone.now()
+        return self.pub_date <= now 
 
 # Forms
-class DateTimePickerInput(forms.DateTimeInput):
-    input_type = 'datetime'
 
 class ArticoliForm(ModelForm):
     class Meta:
