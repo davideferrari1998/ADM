@@ -1,0 +1,12 @@
+<html>
+    <head>
+        Lista Prodotti
+    </head>
+    <body>
+        {% for x in product_list %}
+        <ul>
+            <li>{{ x.name }}: {{ x.price }}</li>
+        </ul>
+        {% endfor %}
+    </body>
+</html>
