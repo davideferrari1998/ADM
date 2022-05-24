@@ -7,3 +7,4 @@ from prodotto.models import Prodotto
 class ItemCarrello(models.Model):
     utente = models.ForeignKey(User, on_delete=models.CASCADE)
     prodotti = models.ForeignKey(Prodotto, on_delete=models.CASCADE)
+    
