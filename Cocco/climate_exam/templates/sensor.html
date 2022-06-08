@@ -1,0 +1,12 @@
+<html>
+    <head>
+        <title>Sensor list</title>
+    </head>
+    <body>
+        <ul>
+        {% for key, values in mean_map.items %}
+        <li>{{key}}: {{values}}</li>    
+        {% endfor %}
+        </ul>
+    </body>
+</html>
