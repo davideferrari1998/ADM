@@ -1,0 +1,16 @@
+<html>
+    <head>
+        Carrello:
+    </head>
+    <body>
+        {%if not cart%}
+                <p> Vuoto </p>
+            {%else%}
+            {% for x in cart %}
+            <ul>
+                <li>{{ x.products }}</li>
+            </ul>
+            {% endfor %}
+        {%endif%}
+    </body>
+</html>
