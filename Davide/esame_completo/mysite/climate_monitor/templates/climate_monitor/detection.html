@@ -1,0 +1,20 @@
+<html>
+    <head>
+        Detections:
+    </head>
+    <body>
+        {%if not detec%}
+                <p> No Detections for this type of sensors </p>
+            {%else%}
+            {% for x in detec %}
+            <ul>
+                <li>N: {{ x.id }}</li>
+                <li>Tipo: {{ x.type }}</li>
+                <li>Indirizzo: {{ x.address }}</li>
+                <li>Cap: {{ x.CAP }}</li>
+                <li>Media: {{ x.val }}</li>
+            </ul>
+            {% endfor %}
+        {%endif%}
+    </body>
+</html>
