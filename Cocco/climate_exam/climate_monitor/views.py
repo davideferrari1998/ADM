@@ -76,4 +76,4 @@ def manageRilevamentiForm(request):
             return HttpResponse('form not valid')
     else:
         form = RilevamentoForm()
-        return render(request, "climate_monitor/form.html", {'form':form})
+        return render(request, 'climate_monitor/form.html', {'form':form})
