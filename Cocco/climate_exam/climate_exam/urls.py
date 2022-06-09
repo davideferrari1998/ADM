@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from climate_monitor.views import sensoriJquery
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('climate_monitor/', include('climate_monitor.urls')),
+    path('jq', sensoriJquery, name="jq"),
 ]

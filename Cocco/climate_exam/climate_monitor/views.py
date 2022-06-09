@@ -59,3 +59,7 @@ def letturaViewJson(request, tipo_lettura):
         mean_map[id] = total/cont    
 
     return JsonResponse(mean_map)
+
+def sensoriJquery(request):
+    print("ok")
+    return render(request, "jsonresp.html", {})

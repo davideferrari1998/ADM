@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>JQuery example</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            function makeRequest() {
+                var type = $('#type').val()
+                var stringa_url = "/climate_monitor/"+type+"/json"
+                $.ajax({
+                    url: stringa_url,
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        $.each(data, function(index, itemData) {
+                            $("#sensor_detail").append(
+                                '<li>'+index+': '+itemData+'</li>'
+                            ) 
+                        });
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                })
+            };
+        </script>
+    </head>
+    <body>
+        <form action="">
+            <input type="text" id="type"/>
+            <input type="submit" onclick="makeRequest()"/>
+        </form>
+        <ul id="sensor_detail">
+        </ul>
+    </body>
+</html>
