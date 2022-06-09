@@ -3,6 +3,7 @@ from django.shortcuts import render
 from .models import Rilevamenti, SensorTypes
 from django.http import JsonResponse
 from .forms import RilevamentoForm
+from django.views import generic
 
 # Create your views here.
 def letturaView(request, tipo_lettura):
@@ -63,7 +64,7 @@ def letturaViewJson(request, tipo_lettura):
 
 def sensoriJquery(request):
     print("ok")
-    return render(request, "jsonresp.html", {})
+    return render(request, "climate_exam/jsonresp.html", {})
 
 def manageRilevamentiForm(request):
     if request.method == 'POST':
@@ -77,3 +78,30 @@ def manageRilevamentiForm(request):
     else:
         form = RilevamentoForm()
         return render(request, 'climate_monitor/form.html', {'form':form})
+
+def updateRilevamentiForm(request, pk):
+    if request.method == 'POST':
+        form = RilevamentoForm(request.POST)
+
+        if form.is_valid() and form.instance.is_valid():
+            form.save()
+            return HttpResponse('Form submitted!')
+        else:
+            return HttpResponse('form not valid')
+    else:
+        obj = Rilevamenti.objects.filter(pk=pk).first()
+        form = RilevamentoForm(instance=obj)
+        return render(request, 'climate_monitor/form.html', {'form':form})
+
+
+class SensorFormView(generic.edit.CreateView):
+    model = Rilevamenti
+    template_name = 'climate_monitor/form.html'
+    fields = '__all__'
+
+class RilevamentoFormModify(generic.edit.UpdateView):
+    model = Rilevamenti
+    template_name = 'climate_monitor/form.html'
+    fields = '__all__'
+    
+    success_url = '/climate_monitor/'
