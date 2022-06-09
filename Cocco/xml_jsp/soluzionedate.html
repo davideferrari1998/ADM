@@ -1,0 +1,31 @@
+<html>
+<head>
+<script type="text/javascript" src="jquery-1.10.2.js"></script>
+<script type="text/javascript">
+	
+	var timeout
+	function makeRequest(){
+		var url = "DateServerSide.jsp";
+		$.ajax({
+			"dataType": "xml",
+			"url": url,
+			"success": xml => {
+				$("#date").html( $(xml).find('content').text() );
+				timeout = $(xml).find('reload').text();
+			},
+			"error": function(e, ts, et) { alert(ts); },
+		});
+	}
+	
+	$(document).ready(function(){
+			makeRequest();
+		},
+		setInterval(() => makeRequest(), parseInt(timeout))
+	);
+</script>
+<title>Date</title>
+</head>
+<body>
+<div id="date"></div>
+</body>
+</html>
