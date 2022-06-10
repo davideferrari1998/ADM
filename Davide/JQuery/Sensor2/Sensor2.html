@@ -1,0 +1,175 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Sensor page with JQuery</title>
+		<script type="text/javascript" src="jquery-1.10.2.js"></script>
+		<script type="text/javascript">
+
+var serverSideURL="SensorServerSide.jsp";
+var serverSideListURL="SensorList.jsp";
+
+$(document).ready(function() {
+	mainPage()
+});
+
+function sensorViewAll(data){
+	$("#box").empty();
+	$.each(data, function(index, val){
+
+		$("#box").append("Sensor: <span>"+ val.sensor +" </span><br>");
+		$("#box").append("Type: <span>"+ val.type +" </span><br>");
+		$("#box").append("Timestamp: <span>"+ val.timestamp +" </span><br>");
+		$("#box").append("Value: <span>"+ val.value +" </span><br>");
+		$("#box").append("<br>");
+		
+	});
+	
+	$("#box").append('<button onclick="mainPage()">Indietro</button>');
+	$("#box").append("<br>");
+	
+};
+
+function redirectSensor(){
+	window.location.replace("http://localhost:8080/SensorApp/Sensor.html");
+};
+
+function sensorDetail(data){
+	
+	$("#box").empty();
+	$("#box").append("Sensor: <span>"+ data.sensor +" </span><br>");
+	$("#box").append("Type: <span>"+ data.type +" </span><br>");
+	$("#box").append("Timestamp: <span>"+ data.timestamp +" </span><br>");
+	$("#box").append("Value: <span>"+ data.value +" </span><br>");
+	$("#box").append('<button onclick="mainPage()">Indietro</button>');
+	
+};
+
+
+function sensorList(data){
+	$("#box").empty();
+	$.each(data, function(index, val){
+		
+		var idx = index + 1
+		$("#box").append("Sensor: <span>"+ val.sensor + " </span>");
+		$("#box").append('<button onclick="showDetail('+ idx +')">Details</button>');
+		$("#box").append("<br>");
+		
+	});
+	$("#box").append('<button onclick="sensorListAll()">Lista Completa</button>');
+	$("#box").append("<br>");
+	$("#box").append('<button onclick="redirectSensor()">Redirect</button>');
+	$("#box").append("<br>");
+	$("#box").append("<br>");
+	
+	$("#box").append('<form action="" method=GET>');
+	$("#box").append('<input type=text id="num" />');
+	$("#box").append('<input type="button" value="Det" onClick="showDetailForm()">');
+	$("#box").append('</form>');
+	$("#box").append("<br>");
+	$("#box").append("<br>");
+	
+	$("#box").append('<form action="" method=GET>');
+	$("#box").append('<label>Name: </label>')
+	$("#box").append('<input type=text id="name" />');
+	$("#box").append("<br>");
+	$("#box").append('<label>Type: </label>');
+	$("#box").append('<input type=text id="type" />');
+	$("#box").append("<br>");
+	$("#box").append('<label>Value: </label>');
+	$("#box").append('<input type=text id="val" />');
+	$("#box").append("<br>");
+	$("#box").append('<input type="button" value="Create" onClick="createSensorForm()">');
+	$("#box").append('</form>');
+	
+	
+};
+
+function mainPage(){
+	$.ajax({"dataType": "json",
+		"url": serverSideListURL, 
+		"success": function(data){
+				sensorList(data);
+		},
+		"error": function(e, ts, et) { alert(ts) },
+	});
+}
+
+function sensorListAll(){
+	$.ajax({"dataType": "json",
+		"url": serverSideURL, 
+		"success": function(data){
+				sensorViewAll(data);
+		},
+		"error": function(e, ts, et) { alert(ts) },
+	});
+}
+
+function showDetail(i){
+	$.ajax({"dataType": "json",
+		"url": "Sensor" + i +".jsp", 
+		"success": function(data){
+				sensorDetail(data);
+		},
+		"error": function(e, ts, et) { alert(ts) },
+	});
+}
+
+function showDetailForm(){
+	
+	var i = 0;
+	i = $('#num').val()
+	
+	$.ajax({"dataType": "json",
+		"url": "Sensor" + i +".jsp", 
+		"success": function(data){
+				sensorDetail(data);
+		},
+		"error": function(e, ts, et) { alert(ts) },
+	});
+}
+
+function createSensorForm(){
+	var name = 0;
+	var type = 0;
+	var value = 0;
+	name = $('#name').val()
+	type = $('#type').val()
+	value = $('#val').val()
+
+	/*alert("Nome: "+ name + ", Tipo: " + type + ",Valore: " + value);*/
+	
+	var dict = {
+			'name': name,
+			'type': type, 
+			'value' : value
+		};
+	
+	$.ajax({
+		"type": "POST",
+		"dataType": "json",
+		"url": "SensorCreate.jsp", 
+		"data": dict,
+		"success": function(data){
+				alert(data.SensorName)
+				alert(data.Type)
+				alert(data.Value)
+		},
+		"error": function(e, ts, et) { alert(ts) },
+	});
+}
+
+
+		</script>
+	</head>
+	<body>
+<!--
+Sensor: <span id=sensor> </span><br>
+Type: <span id=type> </span><br>
+Timestamp: <span id=ts> </span><br>
+Value: <span id=val> </span><br>
+  -->
+
+    	<span id=box> </span><br>
+	</body>
+</html>
