@@ -1,0 +1,71 @@
+<html>
+
+<head>
+<title>Sensor List</title>
+<script type="text/javascript" src="jquery-1.10.2.js"></script>
+<script type="text/javascript">
+
+	var url_name_list = "sensorNameList.jsp"
+	
+	function addDetails(data) {
+		$("#res").empty();
+		$("#res").append('<span> Sensor: '+ data.sensor +'</span><br>');
+		$("#res").append('<span> Sensor: '+ data.type +'</span><br>');
+		$("#res").append('<span> Sensor: '+ data.timestamp +'</span><br>');
+		$("#res").append('<span> Sensor: '+ data.value +'</span><br>');
+	}
+	
+	function showDetails(idx) {
+		$.ajax({
+			"dataType": "json",
+			"url": "sensor"+ idx +".jsp",
+			"success": data => {
+				addDetails(data);
+				//$("#box").append("<br>");
+			},
+			"error": function(e, ts, et) { alert(ts); },
+		});
+	}
+	
+	function addField(key, val, index){
+		let e = $('<span>'+key + ': ' + val+'</span>');
+		$("#box").append(e);
+		var idx = index + 1;
+		var tagContent = '<button onclick="showDetails(' + idx +')">Details</button> ';
+		$("#box").append(tagContent);
+	}
+	
+	function mainPage(){
+		$.ajax({
+			"dataType": "json",
+			"url": url_name_list,
+			"success": data => {
+				// this iterate over the vector
+				$.each(data, function(index, val) {
+					// iterate over the single dictionary that is inside the vec
+					$.each(val, function(key, value) {
+						addField(key, value, index);
+					});
+					$("#box").append("<br>");
+				});
+			},
+			"error": function(e, ts, et) { alert(ts); },
+		});
+	}
+	
+	$(document).ready( function() { 
+		mainPage()}
+	);
+	
+
+</script>
+</head>
+
+<body>
+
+<span id="box"></span>
+<div id="res"></div>
+
+</body>
+
+</html>
