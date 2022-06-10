@@ -1,0 +1,42 @@
+<html>
+
+<head>
+<title>Esercizio Sensor jquery</title>
+<script type="text/javascript" src="jquery-1.10.2.js"></script>
+<script type="text/javascript">
+	
+	function addField(key, val){
+		let e = $('<span>'+key + ': ' + val+'</span><br>');
+		$("#box").append(e);
+	}
+	
+	var url = "sensorServer.jsp";
+	
+	$(document).ready(() => {
+		$.ajax({
+			"dataType": "json",
+			"url": url,
+			"success": data => {
+				// this iterate over the vector
+				$.each(data, function(index, val) {
+					// iterate over the single dictionary that is inside the vec
+					$.each(val, function(key, value) {
+						addField(key, value);
+					});
+					$("#box").append("<br>");
+				});
+			},
+			"error": function(e, ts, et) { alert(ts); },
+		});
+	})
+
+</script>
+</head>
+
+<body>
+
+<span id="box"></span><br>
+
+</body>
+
+</html>
