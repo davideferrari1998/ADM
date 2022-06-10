@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Sensor with JQuery</title>
+		<script type="text/javascript" src="jquery-1.10.2.js"></script>
+		<script type="text/javascript">
+
+var serverSideURL="SensorServerSide.jsp";	
+
+$(document).ready(function() {
+	requestUpdate()
+});
+
+function sensorview(data){
+	
+	/*data.length*/
+	$.each(data, function(index, val){
+		/* Versione 1
+		var s = "sensor"+index;
+		var t = "type"+index;
+		var d = "ts"+index;
+		var v = "val"+index;
+		
+		$("#box").append("Sensor: <span id="+ s +"> </span><br>");
+		$("#box").append("Type: <span id="+ t +"> </span><br>");
+		$("#box").append("Timestamp: <span id="+ d +"> </span><br>");
+		$("#box").append("Value: <span id="+ v +"> </span><br>");
+		$("#box").append("<br>");
+	
+		$("#"+s).html(val.sensor);
+		$("#"+t).html(val.type);
+		$("#"+d).html(val.timestamp);
+		$("#"+v).html(val.value);
+		*/
+		
+		/* Versione 2 */
+		$("#box").append("Sensor: <span>"+ val.sensor +" </span><br>");
+		$("#box").append("Type: <span>"+ val.type +" </span><br>");
+		$("#box").append("Timestamp: <span>"+ val.timestamp +" </span><br>");
+		$("#box").append("Value: <span>"+ val.value +" </span><br>");
+		$("#box").append("<br>");
+		
+	});
+	
+};
+
+
+function requestUpdate(){
+	$.ajax({"dataType": "json",
+		"url": serverSideURL, 
+		"success": function(data){
+				sensorview(data);
+		},
+		"error": function(e, ts, et) { alert(ts) },
+	});
+}
+
+
+		</script>
+	</head>
+	<body>
+<!--
+Sensor: <span id=sensor> </span><br>
+Type: <span id=type> </span><br>
+Timestamp: <span id=ts> </span><br>
+Value: <span id=val> </span><br>
+  -->
+
+    	<span id=box> </span><br>
+	</body>
+</html>
